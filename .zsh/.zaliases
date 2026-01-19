@@ -1,0 +1,59 @@
+## ----------------------------------------------------------------------------
+## file    : .zaliases
+## brief   : zsh aliases configuration file.
+## module  : .zsh
+##
+## author  : Teppei Kobayashi <kobayanes@gmail.com>
+## date    : 2018/01/28
+## ----------------------------------------------------------------------------
+
+
+## ----------------------------------------------------------------------------
+## brief   : common aliases.
+## note    : -
+## ----------------------------------------------------------------------------
+alias cd='pushd'
+alias pd='popd'
+alias mkdir='mkdir -p'
+alias home='cd ${HOME}'
+
+# OS-specific aliases
+if [[ "$OSTYPE" == "darwin"* ]]; then
+    # macOS: use native commands (pbcopy/pbpaste are built-in)
+    # open is also built-in, no alias needed
+    :
+else
+    # Linux: use xsel for clipboard and xdg-open for opening files
+    if command -v xsel >/dev/null 2>&1; then
+        alias pbcopy='xsel --clipboard --input'
+        alias pbpaste='xsel --clipboard --output'
+    fi
+    if command -v xdg-open >/dev/null 2>&1; then
+        alias open='xdg-open'
+    fi
+fi
+
+
+## ----------------------------------------------------------------------------
+## brief   : command aliases.
+## note    : -
+## ----------------------------------------------------------------------------
+# alias ls="ls -F --color=auto --group-directories-first"
+# alias la="ls -A"
+# alias ll="ls -lh"
+# alias lla="ls -Alh"
+# alias lal="lla"
+# alias tree="tree -F -C --dirsfirst"
+# alias grep="grep -n -T -i --color=always"
+
+# ls aliases
+alias ls="eza --color=auto --group-directories-first"
+alias la="eza -a"
+alias ll="eza -lh"
+alias lla="eza -Alh"
+alias lal="lla"
+alias tree="eza -T -C --dirsfirst"
+alias grep="grep -n -T -i --color=always"
+
+# cat aliases
+alias cat="bat --paging=never"
