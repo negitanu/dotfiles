@@ -3,7 +3,7 @@
 ;; brief   : mode configuration.
 ;; module  : .emacs.d
 ;;
-;; author  : Teppei Kobayashi <kobayanes@gmail.com>
+;; author  : Teppei Kobayashi <tkobayashi@kirisame.tech>
 ;; date    : 2018/03/02
 ;; ----------------------------------------------------------------------------
 

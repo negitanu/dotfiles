@@ -3,7 +3,7 @@
 ;; brief   : development tools configuration.
 ;; module  : .emacs.d
 ;;
-;; author  : Teppei Kobayashi <kobayanes@gmail.com>
+;; author  : Teppei Kobayashi <tkobayashi@kirisame.tech>
 ;; date    : 2016/11/14
 ;; ----------------------------------------------------------------------------
 

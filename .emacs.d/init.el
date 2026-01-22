@@ -3,7 +3,7 @@
 ;; brief   : startup configuration entry point.
 ;; module  : .emacs.d
 ;;
-;; author  : Teppei Kobayashi <kobayanes@gmail.com>
+;; author  : Teppei Kobayashi <tkobayashi@kirisame.tech>
 ;; date    : 2018/03/28
 ;; ----------------------------------------------------------------------------
 

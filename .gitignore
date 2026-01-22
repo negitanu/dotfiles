@@ -3,7 +3,7 @@
 ## brief   : specified untrack file.
 ## module  : dotfiles
 ##
-## author  : Teppei Kobayashi <kobayanes@gmail.com>
+## author  : Teppei Kobayashi <tkobayashi@kirisame.tech>
 ## date    : 2018/01/30
 ## ----------------------------------------------------------------------------
 
@@ -32,3 +32,19 @@
 !/.gitignore
 !/.tmux.conf
 !/.dir_colors
+
+# secrets and credentials
+.env_secrets
+.env_secrets.*
+*.localconf
+*.env.local
+*.key
+*.pem
+id_rsa*
+id_dsa*
+id_ecdsa*
+id_ed25519*
+*.p12
+*.pfx
+*.keystore
+*.jks

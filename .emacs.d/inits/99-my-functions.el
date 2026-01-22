@@ -3,7 +3,7 @@
 ;; brief   : my elisp functions
 ;; module  : .emacs.d
 ;;
-;; author  : Teppei Kobayashi <kobayanes@gmail.com>
+;; author  : Teppei Kobayashi <tkobayashi@kirisame.tech>
 ;; date    : 2018/01/21
 ;; ----------------------------------------------------------------------------
 
@@ -36,6 +36,6 @@
 ;; ----------------------------------------------------------------------------
 (defun insert-author-name()
   (interactive)
-  (insert "Teppei Kobayashi <kobayanes@gmail.com>"))
+  (insert "Teppei Kobayashi <tkobayashi@kirisame.tech>"))
 
 (global-set-key (kbd "C-c n") 'insert-author-name)
