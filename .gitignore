@@ -32,6 +32,7 @@
 !/.gitignore
 !/.tmux.conf
 !/.dir_colors
+!/README.md
 
 # secrets and credentials
 .env_secrets
