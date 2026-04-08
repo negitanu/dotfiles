@@ -3,7 +3,7 @@
 ## brief   : zsh aliases configuration file.
 ## module  : .zsh
 ##
-## author  : Teppei Kobayashi <kobayanes@gmail.com>
+## author  : Teppei Kobayashi <tkobayashi@kirisame.tech>
 ## date    : 2018/01/28
 ## ----------------------------------------------------------------------------
 
@@ -14,24 +14,11 @@
 ## ----------------------------------------------------------------------------
 alias cd='pushd'
 alias pd='popd'
+alias open='xdg-open'
 alias mkdir='mkdir -p'
 alias home='cd ${HOME}'
-
-# OS-specific aliases
-if [[ "$OSTYPE" == "darwin"* ]]; then
-    # macOS: use native commands (pbcopy/pbpaste are built-in)
-    # open is also built-in, no alias needed
-    :
-else
-    # Linux: use xsel for clipboard and xdg-open for opening files
-    if command -v xsel >/dev/null 2>&1; then
-        alias pbcopy='xsel --clipboard --input'
-        alias pbpaste='xsel --clipboard --output'
-    fi
-    if command -v xdg-open >/dev/null 2>&1; then
-        alias open='xdg-open'
-    fi
-fi
+alias pbcopy='xsel --clipboard --input'
+alias pbpaste='xsel --clipboard --output'
 
 
 ## ----------------------------------------------------------------------------

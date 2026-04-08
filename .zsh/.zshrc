@@ -3,8 +3,8 @@
 ## brief   : general configration.
 ## module  : .zsh
 ##
-## author  : Teppei Kobayashi <kobayanes@gmail.com>
-## date    : 2025/08/20 (modernized)
+## author  : Teppei Kobayashi <tkobayashi@kirisame.tech>
+## date    : 2025/08/20
 ## ----------------------------------------------------------------------------
 
 
@@ -12,14 +12,15 @@
 ## brief   : terminal multiprexer configuration.
 ## note    : -
 ## ----------------------------------------------------------------------------
+# launch tmux on terminal emulator
 if [ $SHLVL = 1 ]; then
     tmux
 fi
-
+# show processing command on mode-line
 case "${TERM}" in
-    screen*|tmux*|xterm*)
+    screen*|xterm*)
         preexec() {
-            echo -ne "\ek${1}\e\\"
+            echo -ne "\ek$1\e\\"
         }
         precmd() {
             echo -ne "\ek$(basename $(pwd))\e\\"
@@ -208,19 +209,8 @@ if [ -e ~/.localconf ]; then
 fi
 
 # zsh plugins
-if [[ "$OSTYPE" == "darwin"* ]]; then
-    # macOS
-    ZSH_SYNTAX_HIGHLIGHTING="/opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
-    ZSH_AUTOSUGGESTIONS="/opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh"
-else
-    # Linux
-    ZSH_SYNTAX_HIGHLIGHTING="/usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
-    ZSH_AUTOSUGGESTIONS="/usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh"
-fi
-
-# Load plugins if they exist
-[ -f "$ZSH_SYNTAX_HIGHLIGHTING" ] && source "$ZSH_SYNTAX_HIGHLIGHTING"
-[ -f "$ZSH_AUTOSUGGESTIONS" ] && source "$ZSH_AUTOSUGGESTIONS"
+source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
 
 # Modern CLI tools initialization
 # Python tools
@@ -238,31 +228,12 @@ command -v pipx >/dev/null && eval "$(register-python-argcomplete pipx)"
 # command -v atuin >/dev/null && eval "$(atuin init zsh)"
 command -v direnv >/dev/null && eval "$(direnv hook zsh)"
 
-# Rust tools
-command -v rustup >/dev/null && source "$CARGO_HOME/env"
+# Rust tools (source only if env file exists; it may not exist if rustup was not installed via official installer)
+command -v rustup >/dev/null && [ -f "${CARGO_HOME:-$HOME/.cargo}/env" ] && source "${CARGO_HOME:-$HOME/.cargo}/env"
 
 # Better completion for modern tools
 command -v gh >/dev/null && eval "$(gh completion -s zsh)"
-
-# Docker completion (OS-specific)
-if command -v docker >/dev/null; then
-    if [[ "$OSTYPE" == "darwin"* ]]; then
-        # macOS: Docker Desktop provides zsh completion
-        # Note: Do not use bash-completion files in zsh (they use bash-specific commands)
-        [ -f /Applications/Docker.app/Contents/Resources/etc/docker.zsh-completion ] && \
-            source /Applications/Docker.app/Contents/Resources/etc/docker.zsh-completion
-    else
-        # Linux: use docker's built-in zsh completion if available
-        # Fallback to bash-completion only if zsh completion is not available
-        if docker completion zsh >/dev/null 2>&1; then
-            source <(docker completion zsh)
-        elif [ -f /usr/share/bash-completion/completions/docker ]; then
-            # Note: bash-completion may not work properly in zsh
-            source /usr/share/bash-completion/completions/docker
-        fi
-    fi
-fi
-
+command -v docker >/dev/null && eval "$(docker completion zsh)"
 command -v kubectl >/dev/null && source <(kubectl completion zsh)
 
 # zplug
@@ -285,7 +256,11 @@ fi
 
 zplug load --verbose > /dev/null
 
-# Ensure pure theme is loaded
-if ! zplug check sindresorhus/pure; then
-    zplug install sindresorhus/pure
-fi
+# bun completions
+[ -s "/home/kobayashi/.bun/_bun" ] && source "/home/kobayashi/.bun/_bun"
+
+# bun
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"
+
+alias claude-mem='/home/kobayashi/.bun/bin/bun "/home/kobayashi/.claude/plugins/marketplaces/thedotmack/plugin/scripts/worker-service.cjs"'

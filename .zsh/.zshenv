@@ -3,8 +3,8 @@
 ## brief   : zsh configuration file.
 ## module  : .zsh
 ##
-## author  : Teppei Kobayashi <kobayanes@gmail.com>
-## date    : 2025/08/20 (modernized)
+## author  : Teppei Kobayashi <tkobayashi@kirisame.tech>
+## date    : 2025/08/20
 ## ----------------------------------------------------------------------------
 
 
@@ -22,24 +22,7 @@ umask 022
 ## ----------------------------------------------------------------------------
 # terminal settings
 export TERM=tmux-256color
-
-# dircolors configuration (OS-specific)
-if [[ "$OSTYPE" == "darwin"* ]]; then
-    # macOS: use gdircolors if available (from Homebrew coreutils)
-    if command -v gdircolors >/dev/null 2>&1; then
-        eval $(gdircolors ~/.dir_colors 2>/dev/null)
-    elif command -v dircolors >/dev/null 2>&1; then
-        eval $(dircolors ~/.dir_colors 2>/dev/null)
-    fi
-    # macOS also uses LSCOLORS for ls command (fallback)
-    # Format: exfxcxdxbxegedabagacad (see 'man ls' for details)
-    export LSCOLORS="gxfxbEaEBxxEhEhBaDaCaD"
-else
-    # Linux: use standard dircolors
-    if command -v dircolors >/dev/null 2>&1; then
-        eval $(dircolors ~/.dir_colors 2>/dev/null)
-    fi
-fi
+eval $(dircolors ~/.dir_colors)
 
 # history settings
 export HISTFILE=~/.zsh_history
@@ -121,49 +104,3 @@ export XDG_CONFIG_HOME="$HOME/.config"
 export XDG_DATA_HOME="$HOME/.local/share"
 export XDG_CACHE_HOME="$HOME/.cache"
 export XDG_STATE_HOME="$HOME/.local/state"
-
-# Mac OS X Homebrew Hide Hints
-export HOMEBREW_NO_ENV_HINTS=1
-
-# Powerline configuration
-# Powerline looks for config in $XDG_CONFIG_HOME/powerline
-# Create symlink if it doesn't exist: ln -s ~/dotfiles/conf/powerline ~/.config/powerline
-# Or set XDG_CONFIG_HOME to point to dotfiles/conf directory
-# For now, we'll create a symlink automatically if it doesn't exist
-if [ ! -e "$XDG_CONFIG_HOME/powerline" ] && [ -d "$HOME/dotfiles/conf/powerline" ]; then
-    mkdir -p "$XDG_CONFIG_HOME"
-    ln -sf "$HOME/dotfiles/conf/powerline" "$XDG_CONFIG_HOME/powerline" 2>/dev/null || true
-fi
-# Detect OS and set Powerline command path
-if [[ "$OSTYPE" == "darwin"* ]]; then
-    # macOS: use python3 -m powerline.config or find powerline-config in user's Python bin
-    if [ -f "$HOME/Library/Python/3.9/bin/powerline-config" ]; then
-        export POWERLINE_CONFIG_COMMAND="$HOME/Library/Python/3.9/bin/powerline-config"
-    elif [ -f "$HOME/Library/Python/3.10/bin/powerline-config" ]; then
-        export POWERLINE_CONFIG_COMMAND="$HOME/Library/Python/3.10/bin/powerline-config"
-    elif [ -f "$HOME/Library/Python/3.11/bin/powerline-config" ]; then
-        export POWERLINE_CONFIG_COMMAND="$HOME/Library/Python/3.11/bin/powerline-config"
-    elif [ -f "$HOME/Library/Python/3.12/bin/powerline-config" ]; then
-        export POWERLINE_CONFIG_COMMAND="$HOME/Library/Python/3.12/bin/powerline-config"
-    elif command -v powerline-config >/dev/null 2>&1; then
-        export POWERLINE_CONFIG_COMMAND="powerline-config"
-    else
-        # Fallback to python3 module
-        export POWERLINE_CONFIG_COMMAND="python3 -m powerline.config"
-    fi
-    # Add Python user bin to PATH if it exists
-    for py_version in 3.9 3.10 3.11 3.12; do
-        if [ -d "$HOME/Library/Python/$py_version/bin" ]; then
-            export PATH="$PATH:$HOME/Library/Python/$py_version/bin"
-        fi
-    done
-else
-    # Linux: standard locations
-    if command -v powerline-config >/dev/null 2>&1; then
-        export POWERLINE_CONFIG_COMMAND="powerline-config"
-    elif [ -f "$HOME/.local/bin/powerline-config" ]; then
-        export POWERLINE_CONFIG_COMMAND="$HOME/.local/bin/powerline-config"
-    else
-        export POWERLINE_CONFIG_COMMAND="python3 -m powerline.config"
-    fi
-fi
